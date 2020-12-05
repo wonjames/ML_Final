@@ -11,41 +11,27 @@ from typing import List
 def parse_file(file_name: str) -> DataFrame:
     data: DataFrame = pandas.read_csv(file_name, header=0)
 
-    # Can uncomment this line if we want to only use a subset of the rows
-    data = data.iloc[0:10]
+    print('Encoding the data...')
+    # Can modify this line depending on how many rows we want to use
+    data = data.iloc[0:10000]
 
-    artists_df = DataFrame(columns=['artists'])
+    artists = DataFrame(columns=['artists'])
     for i, line in enumerate(data['artists']):
         # convert the string to a list
-        # line = re.sub('\'', '', line)
-        # artists_df = artists_df.append({'artists': line}, ignore_index=True)
         converted = ast.literal_eval(line)
-        artists_df = artists_df.append({'artists': converted}, ignore_index=True)
+        artists = artists.append({'artists': converted}, ignore_index=True)
 
-        # artists = list()
-        # for artist in converted:
-        #     artists.append(artist)
-        #     if artist not in artists:
-        #         artists.append(artist)
-        # artists = ''.join(artists)
-        # print(artists)
-        # artists_df = artists_df.append({'artists': artists}, ignore_index=True)
-    print(artists_df)
-    # data = data['artists'].str.join('|').str.get_dummies()
     mlb = MultiLabelBinarizer()
-    test = DataFrame(mlb.fit_transform(artists_df['artists']), columns=mlb.classes_, index=artists_df.index)
-    # test = artists_df['artists'].str.join('').str.get_dummies()
+    artists = DataFrame(mlb.fit_transform(artists['artists']), columns=mlb.classes_, index=artists.index)
 
-    print(test)
-    # OneHotEncode the 'artists' field
-    # enc = OneHotEncoder()
-    # artists: List[str] = list()
+    # drop the artists column; no longer needed
+    data.drop('artists', axis=1, inplace=True)
+    # Add the encoded artists back to the original dataframe
+    for col in artists:
+        data[col] = artists[col]
 
-    # # artists = artists.values.reshape(-1, 1)
-    # enc.fit(artists_df)
-    # print(enc.categories_)
-    # data.drop('artists', axis=1, inplace=True)
-
+    print('Done.')
+    print(data)
     return data
 
 
