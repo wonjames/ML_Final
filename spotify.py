@@ -2,7 +2,7 @@ import ast
 import pandas
 
 from pandas import DataFrame
-from sklearn.preprocessing import MinMaxScaler, MultiLabelBinarizer, OneHotEncoder
+from sklearn.preprocessing import MinMaxScaler, MultiLabelBinarizer
 
 
 def parse_file(file_name: str) -> DataFrame:
