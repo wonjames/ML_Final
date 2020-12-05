@@ -1,11 +1,8 @@
 import ast
 import pandas
-import numpy as np
-import re
 
 from pandas import DataFrame
 from sklearn.preprocessing import MinMaxScaler, MultiLabelBinarizer, OneHotEncoder
-from typing import List
 
 
 def parse_file(file_name: str) -> DataFrame:
@@ -31,13 +28,11 @@ def parse_file(file_name: str) -> DataFrame:
         data[col] = artists[col]
 
     print('Done.')
-    print(data)
     return data
 
 
 def predict_popularity(data: DataFrame) -> None:
     # Drop the columns that aren't relevant
-    # data.drop(['id', 'release_date', 'artists'], axis=1, inplace=True)
     data.drop(['id', 'release_date'], axis=1, inplace=True)
 
     # Save the identifiers/labels to add back in after
@@ -63,7 +58,7 @@ def predict_popularity(data: DataFrame) -> None:
 
 def main():
     data = parse_file('data.csv')
-    # predict_popularity(data)
+    predict_popularity(data)
     return
 
 
