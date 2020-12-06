@@ -47,7 +47,7 @@ def predict_popularity(data: DataFrame) -> None:
     # Add the identifiers/labels back to the dataframe
     scaled['name'] = names
     scaled['popularity'] = labels
-    print(scaled)
+    print(scaled.head())
 
     # The 'name' field should not be used for the model, but I'm keeping it
     #   for printing purposes
@@ -55,7 +55,7 @@ def predict_popularity(data: DataFrame) -> None:
     # todo: implement model
     return
 
-
+'''
 def main():
     data = parse_file('data.csv')
     predict_popularity(data)
@@ -63,3 +63,8 @@ def main():
 
 
 main()
+
+
+'''
+
+
