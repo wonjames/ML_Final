@@ -39,7 +39,7 @@ def parse_file2(file_name: str) -> DataFrame:
     print('Encoding the data...')
     data=data.dropna()
     data =data.loc[data['year'].isin(['2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020'])]
-    data = data.tail(5000)
+    data = data.tail(4200)
 
     #labelencoder the artists
     data['artists']=LabelEncoder().fit_transform(data['artists'].tolist())

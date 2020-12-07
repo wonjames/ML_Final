@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
-from sklearn.externals import joblib
+import joblib
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.neural_network import MLPRegressor
 import spotify as sp
@@ -11,7 +11,8 @@ from sklearn.preprocessing import MinMaxScaler, MultiLabelBinarizer
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import accuracy_score
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 def predict_popularity(data: DataFrame) -> None:
     # Drop the columns that aren't relevant
@@ -44,9 +45,12 @@ def predict_popularity(data: DataFrame) -> None:
     # change the parameter if needed
     mlp.fit(x_train, y_train)
     prediction_mlp = mlp.predict(x_test)
+   
+    plot_prediction(prediction_mlp, y_test)
+
     print("Done!")
     print("mse: ", mean_squared_error(y_test, prediction_mlp))
-    print(mlp.score(x_test,y_test))
+    print("R^2: ",mlp.score(x_test,y_test))
 
     # save model to model.pkl
     joblib.dump(mlp, 'predict_popularity.pkl')
@@ -56,6 +60,26 @@ def predict_popularity(data: DataFrame) -> None:
 
     return
 
+def plot_prediction(prediction, actual):
+    actual = actual.to_numpy()
+    actual_x = []
+    actual_y = []
+    pred_x = []
+    pred_y = []
+    for i in range(20):
+        pred_y.append(prediction[i])
+        actual_y.append(actual[i])
+        pred_x.append(i)
+        actual_x.append(i)
+    plt.xticks(np.arange(0,20,step=1))
+    p = plt.scatter(pred_x,pred_y,color='blue')
+    a = plt.scatter(actual_x,actual_y,color='green')
+    plt.title('Popularity Prediction')
+    plt.xlabel('Songs')
+    plt.ylabel('Popularity')
+    plt.legend((p ,a), ('Predicted', 'Actual'))
+    plt.show()
+    
 
 def main():
     data = sp.parse_file2('data.csv')
