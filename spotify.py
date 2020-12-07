@@ -43,7 +43,7 @@ def predict_popularity(data: DataFrame) -> None:
     # Scale the data
     scaler = MinMaxScaler()
     scaled = DataFrame(scaler.fit_transform(data.iloc[:, data.columns != 'name']), columns=data.columns)
-
+    print(scaled)
     # Add the identifiers/labels back to the dataframe
     scaled['name'] = names
     scaled['popularity'] = labels
