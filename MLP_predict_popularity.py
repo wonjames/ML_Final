@@ -11,6 +11,7 @@ from sklearn.preprocessing import MinMaxScaler, MultiLabelBinarizer
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -50,7 +51,7 @@ def predict_popularity(data: DataFrame) -> None:
 
     print("Done!")
     print("mse: ", mean_squared_error(y_test, prediction_mlp))
-    print("R^2: ",mlp.score(x_test,y_test))
+    print("R^2: ",r2_score(y_test,prediction_mlp))
 
     # save model to model.pkl
     joblib.dump(mlp, 'predict_popularity.pkl')
