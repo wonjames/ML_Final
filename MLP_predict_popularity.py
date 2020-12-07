@@ -3,30 +3,27 @@ from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 from sklearn.externals import joblib
 from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.neural_network import MLPRegressor
 import spotify as sp
 import ast
 from pandas import DataFrame
 from sklearn.preprocessing import MinMaxScaler, MultiLabelBinarizer
-
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import accuracy_score
 
 
 def predict_popularity(data: DataFrame) -> None:
     # Drop the columns that aren't relevant
     data.drop(['id', 'release_date'], axis=1, inplace=True)
-
-    # Save the identifiers/labels to add back in after
-    names = data['name']
-    labels = data['popularity']
-    data.drop(['name', 'popularity'], axis=1, inplace=True)
-
+    print(data)
+    labels = data.loc[:,'popularity']
     # Scale the data
     scaler = MinMaxScaler()
-    scaled = DataFrame(scaler.fit_transform(data.iloc[:, data.columns != 'name']), columns=data.columns)
+    scaled = DataFrame(scaler.fit_transform(data[data.columns.difference(['name','popularity'])]))
 
-    # Add the identifiers/labels back to the dataframe
-    scaled['name'] = names
-    scaled['popularity'] = labels
-    # scaled.to_csv("todomodel.csv")
+    print("\n")
+
     print(scaled)
 
     # The 'name' field should not be used for the model, but I'm keeping it
@@ -35,23 +32,21 @@ def predict_popularity(data: DataFrame) -> None:
 
     #implement model
     # data split
-    # extract needed column
     cols = [i for i in scaled.columns if i not in ['name', 'popularity']]
     feature_space = scaled[cols]
-    label = scaled['popularity']
-    # #checkpoint
-    # print(feature_space.head())
-    # print(label.head())
+    label = labels
+
     x_train, x_test, y_train, y_test = train_test_split(feature_space, label, random_state=3, test_size=0.3)
 
-
-    # mlp classifier
+    #lr clssifier
     print("start to fit data:\n")
-    mlp = MLPClassifier(hidden_layer_sizes=(10, 10, 10, 10), max_iter=1000, solver='adam')
+    mlp = MLPRegressor( max_iter=5000, solver='adam')
     # change the parameter if needed
     mlp.fit(x_train, y_train)
     prediction_mlp = mlp.predict(x_test)
     print("Done!")
+    print("mse: ", mean_squared_error(y_test, prediction_mlp))
+    print(mlp.score(x_test,y_test))
 
     # save model to model.pkl
     joblib.dump(mlp, 'predict_popularity.pkl')
@@ -63,12 +58,10 @@ def predict_popularity(data: DataFrame) -> None:
 
 
 def main():
-    data = sp.parse_file('data.csv')
+    data = sp.parse_file2('data.csv')
     predict_popularity(data)
 
     return
-
-
 
 main()
 
