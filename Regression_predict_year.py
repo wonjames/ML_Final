@@ -1,8 +1,12 @@
+import random
+
+from sklearn.metrics import mean_squared_error
+
 import spotify as sp
 from pandas import DataFrame
 from sklearn.preprocessing import MinMaxScaler, MultiLabelBinarizer
 from sklearn.model_selection import train_test_split
-from sklearn.neural_network import MLPClassifier
+from sklearn.linear_model import LinearRegression
 import joblib
 
 def predict_year(data: DataFrame) -> None:
@@ -30,19 +34,20 @@ def predict_year(data: DataFrame) -> None:
 
     '''
     # train the model, but I'm commenting out it. You can just load the model with the following code.
-    clf = MLPClassifier(random_state=1, max_iter=1000)
+    clf = LinearRegression(random.seed(1))
     clf.fit(x_train, y_train)
 
     # save the trained model as a file, so that you can load the model and do not need to train the model again
-    joblib.dump(clf, 'predict_year.model')
+    joblib.dump(clf, 'regression_predict_year.model')
     '''
 
 
-    clf = joblib.load('predict_year.model')
+
+    clf = joblib.load('regression_predict_year.model')
 
     #  for printing purposes
     predictions = clf.predict(x_test)
-    print('accuracy：%s' % clf.score(x_test, y_test))
+    print("mse: ", mean_squared_error(y_test, predictions))
 
     # todo: implement evaluation
 
