@@ -41,23 +41,26 @@ def predict_popularity(data: DataFrame) -> None:
     x_train, x_test, y_train, y_test = train_test_split(feature_space, label, random_state=3, test_size=0.3)
 
     #lr clssifier
-    print("start to fit data:\n")
-    mlp = MLPRegressor( max_iter=5000, solver='adam')
+    # print("start to fit data:\n")
+    # mlp = MLPRegressor( max_iter=5000, solver='adam')
     # change the parameter if needed
-    mlp.fit(x_train, y_train)
+    # mlp.fit(x_train, y_train)
+    mlp = joblib.load('predict_popularity.pkl')
     prediction_mlp = mlp.predict(x_test)
    
-    plot_prediction(prediction_mlp, y_test)
+    
 
     print("Done!")
-    print("mse: ", mean_squared_error(y_test, prediction_mlp))
-    print("R^2: ",r2_score(y_test,prediction_mlp))
+    
 
     # save model to model.pkl
     joblib.dump(mlp, 'predict_popularity.pkl')
 
 
-    # todo : model evaluation
+    # model evaluation
+    print("mse: ", mean_squared_error(y_test, prediction_mlp))
+    print("R^2: ",r2_score(y_test,prediction_mlp))
+    plot_prediction(prediction_mlp, y_test)
 
     return
 
