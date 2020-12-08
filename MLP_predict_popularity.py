@@ -25,14 +25,11 @@ def predict_popularity(data: DataFrame) -> None:
     scaled = DataFrame(scaler.fit_transform(data[data.columns.difference(['name','popularity'])]))
 
     print("\n")
-
     print(scaled)
 
     # The 'name' field should not be used for the model, but I'm keeping it
-    #   for printing purposes
-
-
-    #implement model
+    # for printing purposes
+    # implement model
     # data split
     cols = [i for i in scaled.columns if i not in ['name', 'popularity']]
     feature_space = scaled[cols]
@@ -48,14 +45,10 @@ def predict_popularity(data: DataFrame) -> None:
     mlp = joblib.load('predict_popularity.pkl')
     prediction_mlp = mlp.predict(x_test)
    
-    
-
     print("Done!")
     
-
     # save model to model.pkl
     joblib.dump(mlp, 'predict_popularity.pkl')
-
 
     # model evaluation
     print("mse: ", mean_squared_error(y_test, prediction_mlp))

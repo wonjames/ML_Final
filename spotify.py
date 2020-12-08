@@ -46,18 +46,6 @@ def parse_file2(file_name: str) -> DataFrame:
 
     # artists = DataFrame(columns=['artists'])
     # for i, line in enumerate(data['artists']):
-    #     # convert the string to a list
-    #     converted = ast.literal_eval(line)
-    #     artists = artists.append({'artists': converted}, ignore_index=True)
-    #
-    # mlb = MultiLabelBinarizer()
-    # artists = DataFrame(mlb.fit_transform(artists['artists']), columns=mlb.classes_, index=artists.index)
-    #
-    # # drop the artists column; no longer needed
-    # data.drop('artists', axis=1, inplace=True)
-    # # Add the encoded artists back to the original dataframe
-    # for col in artists:
-    #     data[col] = artists[col]
 
     print('Done.')
     return data
@@ -99,12 +87,3 @@ def predict_popularity(data: DataFrame) -> None:
     # todo: implement model
     return
 
-
-# def main():
-#     data = parse_file2('data.csv')
-#     predict_popularity(data)
-#     return
-#
-#
-# main()
-#
