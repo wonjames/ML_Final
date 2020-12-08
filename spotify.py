@@ -62,6 +62,7 @@ def predict_popularity(data: DataFrame) -> None:
 
     # Scale the data
     scaler = MinMaxScaler()
+
     scaled = DataFrame(scaler.fit_transform(data[data.columns.difference(['name','popularity'])]))
     print(scaled)
     mv_abalone = scaled.isnull().sum().sort_values(ascending=False)
@@ -80,9 +81,9 @@ def predict_popularity(data: DataFrame) -> None:
     pmv_abalone = (mv_abalone / len(scaled)) * 100
     missing_abalone = pandas.concat([mv_abalone, pmv_abalone], axis=1, keys=['Missing value', '% Missing'])
     print(missing_abalone)
+
     # The 'name' field should not be used for the model, but I'm keeping it
     #   for printing purposes
 
-    # todo: implement model
     return
 
