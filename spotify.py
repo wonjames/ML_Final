@@ -35,7 +35,6 @@ def parse_file(file_name: str) -> DataFrame:
 def parse_file2(file_name: str) -> DataFrame:
     data: DataFrame = pandas.read_csv(file_name, header=0)
 
-
     print('Encoding the data...')
     data=data.dropna()
     data =data.loc[data['year'].isin(['2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020'])]
