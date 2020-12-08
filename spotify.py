@@ -52,19 +52,4 @@ def predict_popularity(data: DataFrame) -> None:
     # The 'name' field should not be used for the model, but I'm keeping it
     #   for printing purposes
 
-    # todo: implement model
     return
-
-'''
-def main():
-    data = parse_file('data.csv')
-    predict_popularity(data)
-    return
-
-
-main()
-
-
-'''
-
-

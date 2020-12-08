@@ -1,8 +1,6 @@
 import random
-
 from sklearn.metrics import mean_squared_error
 from sklearn.neural_network import MLPRegressor
-
 import spotify as sp
 from pandas import DataFrame
 from sklearn.preprocessing import MinMaxScaler, MultiLabelBinarizer
@@ -40,25 +38,17 @@ def predict_year(data: DataFrame) -> None:
     # train the model, but I'm commenting out it. You can just load the model with the following code.
     clf = MLPRegressor(random_state=1, max_iter=2000)
     clf.fit(x_train, y_train)
-
     # save the trained model as a file, so that you can load the model and do not need to train the model again
     joblib.dump(clf, 'regression_predict_year.model')
     '''
 
-
-
     clf = joblib.load('regression_predict_year.model')
-
-    #  for printing purposes
     predictions = clf.predict(x_test)
+    
+    # implement evaluation
     print("mse: ", mean_squared_error(y_test, predictions))
     print("R^2: ", r2_score(y_test, predictions))
-    # todo: implement evaluation
-
-
-
     plot_prediction(predictions, y_test)
-
 
     return
 
